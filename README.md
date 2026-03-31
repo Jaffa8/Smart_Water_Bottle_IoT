@@ -3,6 +3,9 @@
 ## Project Overview
 This repository contains the firmware and configuration files for an IoT-based Smart Water Bottle. The system monitors user hydration by calculating real-time water levels and detecting drinking motions via bottle tilt. It integrates with the Blynk IoT platform for live dashboard monitoring and status alerts.
 
+## 📊 Dashboard Preview
+![Blynk Dashboard](dashboard.jpeg)
+
 ## Hardware Components
 * ESP32 Development Board
 * MPU6050 Accelerometer & Gyroscope (Configured for tilt and motion detection)
