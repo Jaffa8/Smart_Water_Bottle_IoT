@@ -3,7 +3,14 @@
 ## Project Overview
 This repository contains the firmware and configuration files for an IoT-based Smart Water Bottle. The system monitors user hydration by calculating real-time water levels and detecting drinking motions via bottle tilt. It integrates with the Blynk IoT platform for live dashboard monitoring and status alerts.
 
-## 📊 Dashboard Preview
+## 📊 Project Previews
+
+### Hardware Simulation Setup
+This image shows the ESP32 connection with MPU6050 and HC-SR04 sensors in the Wokwi environment.
+![Hardware Simulator](simulator_pic.jpeg)
+
+### Blynk IoT Dashboard
+The live monitoring interface showing water level percentage and real-time hydration status alerts.
 ![Blynk Dashboard](dashboard.jpeg)
 
 ## Hardware Components
