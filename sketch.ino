@@ -1,3 +1,4 @@
+// Enter your own credentials here as I have uploaded directly from Wokwi and not any IDE so did not have the option to add .gitignore
 #define BLYNK_TEMPLATE_ID "Enter your own id"
 #define BLYNK_TEMPLATE_NAME "Enter your own template name"
 #define BLYNK_AUTH_TOKEN "enter your own auth token"
