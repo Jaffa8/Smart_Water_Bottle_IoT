@@ -22,68 +22,65 @@ int lastWaterLevel = 100;
 const unsigned long SIP_REMINDER_TIME = 10000; 
 
 void checkBottle() {
-  
+  // 1. Water Level calculation (Tera purana code same rahega)
   digitalWrite(TRIG_PIN, LOW); delayMicroseconds(2);
   digitalWrite(TRIG_PIN, HIGH); delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
   long duration = pulseIn(ECHO_PIN, HIGH);
   float distance = duration * 0.034 / 2; 
   
- 
   int waterLevel = map(distance, 5, 350, 100, 0);
   if(waterLevel > 100) waterLevel = 100;
   if(waterLevel < 0) waterLevel = 0;
 
- 
+  // 2. Motion/Tilt calculation
   int16_t ax, ay, az, gx, gy, gz;
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
   float tiltAngle = atan2(ax / 16384.0, az / 16384.0) * 180.0 / PI;
 
   String status = "";
-
-
   
+  // NAYA VARIABLE: Graph pe dikhane ke liye
+  int isDrinking = 0; 
+
+  // --- NEW UPDATED MULTI-STATUS LOGIC ---
   if (abs(tiltAngle) > 45.0) { 
-  
+    // Top Priority: Actively Drinking
     status = "Drinking...";
+    isDrinking = 1; // <--- Yahan humne isko 1 kar diya
     lastSipTime = millis(); 
     lastWaterLevel = waterLevel;
   } 
   else if (waterLevel <= 0) {
-   
     status = "Fill the water bottle!";
     lastWaterLevel = waterLevel;
   }
   else if (waterLevel >= 100) {
-  
     status = "Water bottle filled!";
     lastWaterLevel = waterLevel;
     lastSipTime = millis(); 
   }
   else if (waterLevel < lastWaterLevel) {
-   
     status = "You just had a sip!";
     lastSipTime = millis();
     lastWaterLevel = waterLevel;
   }
   else if (millis() - lastSipTime < 10000 && lastSipTime != 0) {
-   
     status = "You just had a sip!";
   }
   else if (millis() - lastSipTime > SIP_REMINDER_TIME) {
-  
     status = "Time to hydrate! Take a sip";
   }
   else {
-  
     status = "Hydrated";
   }
 
- 
+  // 3. Send to Blynk
   Blynk.virtualWrite(V0, waterLevel); 
-  Blynk.virtualWrite(V1, status);     
+  Blynk.virtualWrite(V1, status);    
+  Blynk.virtualWrite(V2, isDrinking); // <--- NAYI PIN V2 PE DATA BHEJA
 
-  Serial.printf("Lvl: %d%% | Status: %s\n", waterLevel, status.c_str());
+  Serial.printf("Lvl: %d%% | Status: %s | Drinking: %d\n", waterLevel, status.c_str(), isDrinking);
 }
 
 void setup() {
