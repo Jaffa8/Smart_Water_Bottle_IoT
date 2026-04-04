@@ -11,7 +11,7 @@ This image shows the ESP32 connection with MPU6050 and HC-SR04 sensors in the Wo
 
 ### Blynk IoT Dashboard
 The live monitoring interface showing water level percentage and real-time hydration status alerts.
-![Blynk Dashboard](dashboard.jpeg)
+![Blynk Dashboard](dashboard_pic.jpeg)
 
 ## Hardware Components
 * ESP32 Development Board
