@@ -22,7 +22,7 @@ int lastWaterLevel = 100;
 const unsigned long SIP_REMINDER_TIME = 10000; 
 
 void checkBottle() {
-  // 1. Water Level calculation (Tera purana code same rahega)
+
   digitalWrite(TRIG_PIN, LOW); delayMicroseconds(2);
   digitalWrite(TRIG_PIN, HIGH); delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
@@ -33,21 +33,21 @@ void checkBottle() {
   if(waterLevel > 100) waterLevel = 100;
   if(waterLevel < 0) waterLevel = 0;
 
-  // 2. Motion/Tilt calculation
+ 
   int16_t ax, ay, az, gx, gy, gz;
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
   float tiltAngle = atan2(ax / 16384.0, az / 16384.0) * 180.0 / PI;
 
   String status = "";
   
-  // NAYA VARIABLE: Graph pe dikhane ke liye
+ 
   int isDrinking = 0; 
 
-  // --- NEW UPDATED MULTI-STATUS LOGIC ---
+  
   if (abs(tiltAngle) > 45.0) { 
-    // Top Priority: Actively Drinking
+    
     status = "Drinking...";
-    isDrinking = 1; // <--- Yahan humne isko 1 kar diya
+    isDrinking = 1; 
     lastSipTime = millis(); 
     lastWaterLevel = waterLevel;
   } 
@@ -75,10 +75,10 @@ void checkBottle() {
     status = "Hydrated";
   }
 
-  // 3. Send to Blynk
+  
   Blynk.virtualWrite(V0, waterLevel); 
   Blynk.virtualWrite(V1, status);    
-  Blynk.virtualWrite(V2, isDrinking); // <--- NAYI PIN V2 PE DATA BHEJA
+  Blynk.virtualWrite(V2, isDrinking); 
 
   Serial.printf("Lvl: %d%% | Status: %s | Drinking: %d\n", waterLevel, status.c_str(), isDrinking);
 }
